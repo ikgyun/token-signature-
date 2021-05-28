@@ -1,0 +1,64 @@
+header에 보낼지 body에 보낼지 
+헤더안에 데이터 속성안에
+
+
+
+
+
+post 방식 1
+document.addEventListener('DOMContentLoaded',init);
+function init(){
+    const loginBtn = document.querySelector('#loginBtn');
+    const layerPopup = document.querySelector('.layerPopup');
+    const localLogin = document.querySelector('#localLogin');
+    loginBtn.addEventListener('click', loginBtnFn)
+    layerPopup.addEventListener('click',popupClose);
+    localLogin.addEventListener('click',login);
+}
+
+function loginBtnFn(){
+    const layerPopup = document.querySelector('.layerPopup');
+    layerPopup.classList.add('open');
+    console.log(this);
+}
+
+function popupClose(event){
+    console.log(event);
+    console.log(this); 
+    if(event.target == this){
+        this.classList.remove('open')    
+    }
+}
+
+async function login(){
+    const userid = document.querySelector('#userid');
+    const userpw = document.querySelector('#userpw');
+
+    if(userid.value == ""){
+        alert('아이디를 입력해주세~요!');
+        userid.focus();
+        return 0;
+    }
+
+    if(userpw.value == ""){
+        alert('패스워드를 입력해주세~요!');
+        userpw.focus();
+        return 0;
+    }
+
+    // POST auth/local/login post로 보내는 방법이 두가지있는데 두가지중 하나임.
+    let url = 'http://localhost:3000/auth/local/login';
+    let options = {
+        method:'POST',
+        headers:{
+            'content-type':'application/x-www-form-urlencoded'
+        },
+        body:`userid=${userid.value}&userpw=${userpw.value}`,
+    }
+    //  headers
+    //  key=value&key2=value2
+    //  값을 2개를 보낼거다. userid,userpw
+    let response = await fetch(url,options); //promise 객체 reserve, 
+    console.log(response); //상태값을 받아주는 것.
+
+}
